@@ -1,0 +1,23 @@
+server:
+  port: 8082
+spring:
+  mvc:
+    static-path-pattern: /static/**
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  # 配置数据源信息
+  datasource:
+    dynamic:
+      primary: yewu
+      datasource:
+        yewu:
+          # 配置连接业务数据库信息
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/mynetdisk?useSSL=false&allowPublicKeyRetrieval=true
+          username: root
+          password: 1776252636
+mybatis-plus:
+  mapper-locations: /mapper/*.xml
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
