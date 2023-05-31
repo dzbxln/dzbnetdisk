@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,9 +33,24 @@ public class FolderController {
     }
 
     @PostMapping("/create_folder")
-    public Result createFolder(Folder folder) throws Exception{
+    public Result createFolder(@RequestBody Folder folder) throws Exception{
         if (!folderService.createFolder(folder))
             throw new Exception("创建失败！");
+        return Result.success(folder);
+    }
+
+    @PutMapping("/update_folder")
+    public Result updateFolder(@RequestBody Folder folder) throws Exception{
+        folder.setUpdateTime(new Date());
+        if (!folderService.updateFolder(folder))
+            throw new Exception("修改失败！");
+        return Result.success(folder);
+    }
+
+    @PostMapping("/delete_folder/{fId}")
+    public Result deleteFolder(@PathVariable("fId") String fId) throws Exception {
+        if (!folderService.deleteFolder(Long.valueOf(fId)))
+            throw new Exception("删除失败！");
         return Result.success();
     }
 }

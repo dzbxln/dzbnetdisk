@@ -12,7 +12,31 @@ import java.util.List;
  */
 public interface FolderService extends IService<Folder> {
 
+    /**
+     * 获取文件夹列表
+     * @param master_id 父文件夹id（若为空则是根目录）
+     * @return
+     */
     List<Folder> getFolderList(String master_id);
 
+    /**
+     * 新增文件夹
+     * @param folder 文件夹数据
+     * @return
+     */
     boolean createFolder(Folder folder);
+
+    /**
+     * 修改文件夹
+     * @param folder 文件夹数据
+     * @return
+     */
+    boolean updateFolder(Folder folder);
+
+    /**
+     * 删除文件夹
+     * @param fId 文件夹id
+     * @return
+     */
+    boolean deleteFolder(Long fId);
 }

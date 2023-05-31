@@ -7,6 +7,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 
 /**
@@ -20,6 +23,7 @@ public class File implements Serializable {
      * 
      */
     @TableId
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long fileId;
 
     /**
