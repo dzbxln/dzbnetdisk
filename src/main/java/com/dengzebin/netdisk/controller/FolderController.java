@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -52,5 +53,11 @@ public class FolderController {
         if (!folderService.deleteFolder(Long.valueOf(fId)))
             throw new Exception("删除失败！");
         return Result.success();
+    }
+
+    @GetMapping("/get_breadcrumb")
+    public Result getBreadcrumb(@RequestParam("masterId") String masterId){
+        List<HashMap<String, String>> folderList = folderService.getBreadcrumb(masterId);
+        return Result.success(folderList);
     }
 }

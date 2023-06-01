@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.dengzebin.netdisk.mapper.FolderMapper;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -39,4 +41,11 @@ public interface FolderService extends IService<Folder> {
      * @return
      */
     boolean deleteFolder(Long fId);
+
+    /**
+     * 面包屑导航数据
+     * @param masterId 父文件夹id
+     * @return
+     */
+    List<HashMap<String,String>> getBreadcrumb(String masterId);
 }

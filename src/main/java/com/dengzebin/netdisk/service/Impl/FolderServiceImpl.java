@@ -9,7 +9,7 @@ import com.dengzebin.netdisk.mapper.FolderMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -44,6 +44,27 @@ public class FolderServiceImpl extends ServiceImpl<FolderMapper, Folder>
         queryWrapper.eq(Folder::getFId,fId).set(Folder::getIsDelete,1);
         int res = folderMapper.update(null,queryWrapper);
         return res > 0;
+    }
+
+    @Override
+    public List<HashMap<String, String>> getBreadcrumb(String masterId) {
+        LambdaQueryWrapper<Folder> queryWrapper = new LambdaQueryWrapper<>();
+        String master = masterId;
+        Folder folder = new Folder();
+        List<HashMap<String, String>> folderList = new ArrayList<>();
+        do {
+            queryWrapper.eq(Folder::getFId,master);
+            folder = folderMapper.selectOne(queryWrapper);
+            HashMap<String, String> map = new HashMap<>();
+            map.put("folderId",folder.getFId().toString());
+            map.put("folderName",folder.getFolderName());
+            folderList.add(map);
+            queryWrapper.clear();
+            if (folder.getMasterFolderId() != null)
+                master = folder.getMasterFolderId().toString();
+        }while (folder.getMasterFolderId() != null);
+        Collections.reverse(folderList);
+        return folderList;
     }
 }
 

@@ -34,6 +34,7 @@ public class Folder implements Serializable {
     /**
      * 父文件夹id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long masterFolderId;
 
     /**

@@ -29,6 +29,7 @@ public class File implements Serializable {
     /**
      * 文件夹id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long folderId;
 
     /**
