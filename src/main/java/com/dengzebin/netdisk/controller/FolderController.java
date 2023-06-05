@@ -3,9 +3,9 @@ package com.dengzebin.netdisk.controller;
 import com.dengzebin.netdisk.entity.DO.Folder;
 import com.dengzebin.netdisk.service.FolderService;
 import com.dengzebin.netdisk.untils.Result;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,11 +20,15 @@ import java.util.List;
 @RequestMapping("/netDisk")
 public class FolderController {
 
-    @Resource
     private FolderService folderService;
 
+    @Autowired
+    public void setFolderService(FolderService folderService) {
+        this.folderService = folderService;
+    }
+
     @GetMapping("/get_folder_list")
-    public Result getFolderList(@RequestParam("fId") String fId){
+    public Result getFolderList(@RequestParam("fId") String fId) {
         List<Folder> folderList = new ArrayList<>();
         if ("".equals(fId))
             folderList = folderService.getFolderList(null);
@@ -34,14 +38,14 @@ public class FolderController {
     }
 
     @PostMapping("/create_folder")
-    public Result createFolder(@RequestBody Folder folder) throws Exception{
+    public Result createFolder(@RequestBody Folder folder) throws Exception {
         if (!folderService.createFolder(folder))
             throw new Exception("创建失败！");
         return Result.success(folder);
     }
 
     @PutMapping("/update_folder")
-    public Result updateFolder(@RequestBody Folder folder) throws Exception{
+    public Result updateFolder(@RequestBody Folder folder) throws Exception {
         folder.setUpdateTime(new Date());
         if (!folderService.updateFolder(folder))
             throw new Exception("修改失败！");
@@ -56,7 +60,7 @@ public class FolderController {
     }
 
     @GetMapping("/get_breadcrumb")
-    public Result getBreadcrumb(@RequestParam("masterId") String masterId){
+    public Result getBreadcrumb(@RequestParam("masterId") String masterId) {
         List<HashMap<String, String>> folderList = folderService.getBreadcrumb(masterId);
         return Result.success(folderList);
     }

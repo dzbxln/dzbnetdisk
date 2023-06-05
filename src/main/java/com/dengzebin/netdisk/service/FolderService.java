@@ -16,6 +16,7 @@ public interface FolderService extends IService<Folder> {
 
     /**
      * 获取文件夹列表
+     *
      * @param master_id 父文件夹id（若为空则是根目录）
      * @return
      */
@@ -23,6 +24,7 @@ public interface FolderService extends IService<Folder> {
 
     /**
      * 新增文件夹
+     *
      * @param folder 文件夹数据
      * @return
      */
@@ -30,6 +32,7 @@ public interface FolderService extends IService<Folder> {
 
     /**
      * 修改文件夹
+     *
      * @param folder 文件夹数据
      * @return
      */
@@ -37,6 +40,7 @@ public interface FolderService extends IService<Folder> {
 
     /**
      * 删除文件夹
+     *
      * @param fId 文件夹id
      * @return
      */
@@ -44,8 +48,9 @@ public interface FolderService extends IService<Folder> {
 
     /**
      * 面包屑导航数据
+     *
      * @param masterId 父文件夹id
      * @return
      */
-    List<HashMap<String,String>> getBreadcrumb(String masterId);
+    List<HashMap<String, String>> getBreadcrumb(String masterId);
 }

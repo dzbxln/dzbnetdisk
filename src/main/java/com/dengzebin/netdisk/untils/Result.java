@@ -11,11 +11,12 @@ public class Result {
     private Integer code;
     private String message;
     private Object data;
-    public Result(){
+
+    public Result() {
 
     }
 
-    public Result(Integer code,String message, Object data) {
+    public Result(Integer code, String message, Object data) {
         this.code = code;
         this.message = message;
         this.data = data;
@@ -48,15 +49,16 @@ public class Result {
     public Result(Object data) {
         this.data = data;
     }
+
     //成功时返回
-    public static Result success(){
+    public static Result success() {
         Result result = new Result();
         result.setCode(0);
         result.setMessage("成功");
         return result;
     }
 
-    public static Result success(Object data){
+    public static Result success(Object data) {
         Result result = new Result();
         result.setCode(0);
         result.setMessage("成功");
@@ -64,7 +66,7 @@ public class Result {
         return result;
     }
 
-    public static Result success(String message,Object data){
+    public static Result success(String message, Object data) {
         Result result = new Result();
         result.setCode(0);
         result.setMessage(message);
@@ -73,7 +75,7 @@ public class Result {
     }
 
 
-    public static Result error(String message, Object data){
+    public static Result error(String message, Object data) {
         Result result = new Result();
         result.setCode(-1);
         result.setMessage(message);
@@ -82,14 +84,14 @@ public class Result {
     }
 
     //错误时返回
-    public static Result error(Integer code,String message){
+    public static Result error(Integer code, String message) {
         Result result = new Result();
         result.setCode(code);
         result.setMessage(message);
         return result;
     }
 
-    public static Result error(Integer code,String message,Object data){
+    public static Result error(Integer code, String message, Object data) {
         Result result = new Result();
         result.setCode(code);
         result.setMessage(message);

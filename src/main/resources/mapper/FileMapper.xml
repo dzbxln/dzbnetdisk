@@ -5,15 +5,15 @@
 <mapper namespace="com.dengzebin.netdisk.mapper.FileMapper">
 
     <resultMap id="BaseResultMap" type="com.dengzebin.netdisk.entity.DO.File">
-            <id property="fileId" column="file_id" jdbcType="BIGINT"/>
-            <result property="folderId" column="folder_id" jdbcType="BIGINT"/>
-            <result property="fileName" column="file_name" jdbcType="VARCHAR"/>
-            <result property="fileType" column="file_type" jdbcType="VARCHAR"/>
-            <result property="fileImage" column="file_image" jdbcType="VARCHAR"/>
-            <result property="volume" column="volume" jdbcType="DECIMAL"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-            <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+        <id property="fileId" column="file_id" jdbcType="BIGINT"/>
+        <result property="folderId" column="folder_id" jdbcType="BIGINT"/>
+        <result property="fileName" column="file_name" jdbcType="VARCHAR"/>
+        <result property="fileType" column="file_type" jdbcType="VARCHAR"/>
+        <result property="fileImage" column="file_image" jdbcType="VARCHAR"/>
+        <result property="volume" column="volume" jdbcType="DECIMAL"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">

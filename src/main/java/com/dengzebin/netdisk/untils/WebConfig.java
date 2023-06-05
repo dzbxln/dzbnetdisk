@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public RequestDetail requestDetail(){
+    public RequestDetail requestDetail() {
         return new RequestDetail();
     }
 }

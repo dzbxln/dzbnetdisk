@@ -5,13 +5,13 @@
 <mapper namespace="com.dengzebin.netdisk.mapper.FolderMapper">
 
     <resultMap id="BaseResultMap" type="com.dengzebin.netdisk.entity.DO.Folder">
-            <id property="fId" column="f_id" jdbcType="BIGINT"/>
-            <result property="folderName" column="folder_name" jdbcType="VARCHAR"/>
-            <result property="masterFolderId" column="master_folder_id" jdbcType="BIGINT"/>
-            <result property="volume" column="volume" jdbcType="DECIMAL"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-            <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+        <id property="fId" column="f_id" jdbcType="BIGINT"/>
+        <result property="folderName" column="folder_name" jdbcType="VARCHAR"/>
+        <result property="masterFolderId" column="master_folder_id" jdbcType="BIGINT"/>
+        <result property="volume" column="volume" jdbcType="DECIMAL"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -21,14 +21,14 @@
     </sql>
     <select id="getFolderList" resultType="com.dengzebin.netdisk.entity.DO.Folder">
         SELECT * FROM folder
-            WHERE is_delete = 0
-            <choose>
-                <when test="master_id != null">
-                    AND master_folder_id = #{master_id}
-                </when>
-                <otherwise>
-                    AND master_folder_id is null
-                </otherwise>
-            </choose>
+        WHERE is_delete = 0
+        <choose>
+            <when test="master_id != null">
+                AND master_folder_id = #{master_id}
+            </when>
+            <otherwise>
+                AND master_folder_id is null
+            </otherwise>
+        </choose>
     </select>
 </mapper>

@@ -16,14 +16,19 @@ import java.util.*;
  */
 @Service
 public class FolderServiceImpl extends ServiceImpl<FolderMapper, Folder>
-    implements FolderService{
+        implements FolderService {
 
     @Resource
     private FolderMapper folderMapper;
 
     @Override
     public List<Folder> getFolderList(String master_id) {
-        return folderMapper.getFolderList(master_id);
+        List<Folder> folderList = new ArrayList<>();
+        folderList = folderMapper.getFolderList(master_id);
+        if (folderList.size() > 0)
+            return folderList;
+        else
+            return folderList;
     }
 
     @Override
@@ -41,29 +46,31 @@ public class FolderServiceImpl extends ServiceImpl<FolderMapper, Folder>
     @Override
     public boolean deleteFolder(Long fId) {
         LambdaUpdateWrapper<Folder> queryWrapper = new LambdaUpdateWrapper<>();
-        queryWrapper.eq(Folder::getFId,fId).set(Folder::getIsDelete,1);
-        int res = folderMapper.update(null,queryWrapper);
+        queryWrapper.eq(Folder::getFId, fId).set(Folder::getIsDelete, 1);
+        int res = folderMapper.update(null, queryWrapper);
         return res > 0;
     }
 
     @Override
     public List<HashMap<String, String>> getBreadcrumb(String masterId) {
         LambdaQueryWrapper<Folder> queryWrapper = new LambdaQueryWrapper<>();
-        String master = masterId;
-        Folder folder = new Folder();
         List<HashMap<String, String>> folderList = new ArrayList<>();
-        do {
-            queryWrapper.eq(Folder::getFId,master);
-            folder = folderMapper.selectOne(queryWrapper);
-            HashMap<String, String> map = new HashMap<>();
-            map.put("folderId",folder.getFId().toString());
-            map.put("folderName",folder.getFolderName());
-            folderList.add(map);
-            queryWrapper.clear();
-            if (folder.getMasterFolderId() != null)
-                master = folder.getMasterFolderId().toString();
-        }while (folder.getMasterFolderId() != null);
-        Collections.reverse(folderList);
+        if (!"".equals(masterId)) {
+            String master = masterId;
+            Folder folder = new Folder();
+            do {
+                queryWrapper.eq(Folder::getFId, master);
+                folder = folderMapper.selectOne(queryWrapper);
+                HashMap<String, String> map = new HashMap<>();
+                map.put("folderId", folder.getFId().toString());
+                map.put("folderName", folder.getFolderName());
+                folderList.add(map);
+                queryWrapper.clear();
+                if (folder.getMasterFolderId() != null)
+                    master = folder.getMasterFolderId().toString();
+            } while (folder.getMasterFolderId() != null);
+            Collections.reverse(folderList);
+        }
         return folderList;
     }
 }
