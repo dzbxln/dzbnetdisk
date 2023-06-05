@@ -38,7 +38,7 @@
     </a-layout>
 </template>
 <script setup lang="ts">
-    import Sider from '@/components/Sider.vue'
+    import Sider from '../components/Sider.vue'
     import {
         ref,
         reactive,
