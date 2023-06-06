@@ -14,7 +14,7 @@
             <span class="nav-text">图片</span>
         </a-menu-item>
     </a-menu>
-    <a-menu theme="dark" mode="inline">
+    <!-- <a-menu theme="dark" mode="inline">
         <a-sub-menu key="sub2">
             <template #icon></template>
             <template #title>
@@ -28,10 +28,22 @@
                 <a-menu-item key="8">Option 8</a-menu-item>
             </a-sub-menu>
         </a-sub-menu>
-    </a-menu>
+    </a-menu> -->
+    <div style="height: 150px;">
+        <a-upload-dragger>
+            <p class="ant-upload-drag-icon">
+                <inbox-outlined></inbox-outlined>
+            </p>
+            <p class="ant-upload-text">上传文件</p>
+            <p class="ant-upload-hint">
+                也可以选择拖拽上传
+            </p>
+        </a-upload-dragger>
+    </div>
 </template>
 <script setup lang="ts">
     import {
+        InboxOutlined,
         FolderOpenTwoTone,
         PictureTwoTone,
         VideoCameraTwoTone,
