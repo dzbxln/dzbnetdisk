@@ -33,6 +33,7 @@ build/
 
 ### VS Code ###
 .vscode/
+netDisk_log
 netdiskUI/node_modules
 
 netdiskUI/node_modules/.bin/
