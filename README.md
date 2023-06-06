@@ -1,7 +1,7 @@
 # 简易网盘项目
 
 #### 配置
-！进入netdiskUI->src->assets
+！进入netdiskUI->src->until
 新建ts文件：token.ts
 复制以下代码：
 

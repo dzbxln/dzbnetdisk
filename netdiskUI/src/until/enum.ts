@@ -57,3 +57,19 @@ const arr = [
     { type: "wav", application: "audio/x-wav" },
     { type: "bmp", application: "image/bmp" }
 ];
+
+export default{
+    getSrc:function(res: string){
+        // let type:string = getType(res)
+        // if (res.indexOf(""))
+    }
+
+}
+
+// function getType(params: string) {
+//     for (let i = 0; i < arr.length; i++){
+//         if (arr[i].application === params){
+//             return arr[i].type
+//         }
+//     }
+// }
