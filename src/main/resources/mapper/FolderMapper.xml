@@ -23,10 +23,10 @@
         SELECT * FROM folder
         WHERE is_delete = 0
         <choose>
-            <when test="master_id != null">
+            <when test="master_id != null"> -- 相当于if
                 AND master_folder_id = #{master_id}
             </when>
-            <otherwise>
+            <otherwise> -- 相当于else
                 AND master_folder_id is null
             </otherwise>
         </choose>

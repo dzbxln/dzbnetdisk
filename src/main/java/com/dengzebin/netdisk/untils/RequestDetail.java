@@ -16,6 +16,9 @@ public class RequestDetail implements HandlerInterceptor {
 
     private static Logger logger = LoggerFactory.getLogger(RequestDetail.class);
 
+    /**
+     * 控制台输出前端请求的接口
+     */
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         logger.info("客户端请求路径：{}", request.getRequestURI());
         return true;
