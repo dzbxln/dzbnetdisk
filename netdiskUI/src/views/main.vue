@@ -88,20 +88,24 @@
             volume: string,
             isDelete: int,
     }
-    // 两个显示判定
+    // 文本框显示判定
     const display = ref(false)
-    const selectedKeys = ref < string[1] > (["1"])
+    // 文件夹列表
     const listData = reactive < CardData[20] > ([])
-    const model = ref < string[10] > (["0"])
+    // 存储组件参数，用于获取焦点
     const refin = ref({})
+    // 获取共享变量的参数
     const store = useStore();
+    // 计算数组长度
     const arrayLength = computed(() => store.state.CardData.length)
 
     // 监听数组长度变化
     watch(arrayLength, (newQuestion, oldQuestion) => {
+        // 视图更新
         addData()
         let isor = false
         for (let i = 0; i < store.state.CardData.length; i++) {
+            // 判断这次的长度变化的原因是新增文件夹，还是面包屑导航出现的文件夹数量变化
             if (!store.state.CardData[i].folderName || store.state.CardData[i].folderName.trim().length === 0) {
                 isor = true
             }
@@ -115,12 +119,13 @@
                         key = i
                     }
                 }
+                // 文本框获取焦点
                 refin[key].focus()
             })
         }
     })
 
-    // 监听父文件id
+    // 监听共享变量中设置的父文件夹id
     watch(() => store.state.masterId, (newQuestion, oldQuestion) => {
         let form = {
             fId: store.state.masterId
@@ -133,7 +138,7 @@
 
     })
 
-
+    // 生命函数：组件挂载完成后调用
     onMounted(() => {
         getData()
     })
@@ -148,6 +153,7 @@
     function newCreate(params) {
         let isor = true
         for (let i = 0; i < listData.length; i++) {
+            // 判断是否存在新建的文件夹（即判断是否存在空命名的文件夹）
             if (!listData[i].folderName || listData[i].folderName.trim().length === 0) {
                 isor = false
             }
@@ -177,30 +183,33 @@
 
     // 列表更新
     function addData(params) {
+        // 已有数据清空
         listData.splice(0, listData.length)
+        // 遍历共享变量中的文件夹列表数据
         for (let i = 0; i < store.state.CardData.length; i++) {
             listData.push(store.state.CardData[i])
             if (listData[i].display === undefined || listData[i].display === null) {
                 listData[i].display = true
             }
+            // 用于绑定组件参数下标
             listData[i].index = i
         }
     }
 
-    // ref绑定的函数
+    // ref绑定组件参数的函数
     function in_ref(el, key) {
         refin[key] = el
     }
 
-    //双击
+    //双击时
     async function double_click(params) {
         params.display = false
         await nextTick(() => {
-            refin[params.fId].focus()
+            refin[params.index].focus()
         })
     }
 
-    // 回车|失去焦点
+    // 回车 or 失去焦点
     function Undisplay(params) {
         let isor = true
         if (!params.folderName || params.folderName.trim().length === 0) {
@@ -248,6 +257,7 @@
 
     // 连接后端获取列表
     function getData(res) {
+        // 若为根文件夹
         if (res === undefined) {
             request.get("/get_folder_list", {
                 params: {
@@ -268,7 +278,6 @@
                 console.log(r.data);
                 if (!r.data || r.data.length === 0) {
                     store.state.masterId = res.fId
-                    console.log("文件夹下没有文件");
                 } else {
                     store.state.masterId = r.data[0].masterFolderId
                 }
