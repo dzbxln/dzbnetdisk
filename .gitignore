@@ -669,3 +669,4 @@ netdiskUI/node_modules/yargs/package.json
 netdiskUI/node_modules/yargs/yargs
 src/main/java/com/dengzebin/netdisk/entity/VO/
 src/main/java/com/dengzebin/netdisk/quartz/
+netdiskUI/src/assets/token.ts

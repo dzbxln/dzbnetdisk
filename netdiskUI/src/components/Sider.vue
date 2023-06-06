@@ -14,21 +14,6 @@
             <span class="nav-text">图片</span>
         </a-menu-item>
     </a-menu>
-    <!-- <a-menu theme="dark" mode="inline">
-        <a-sub-menu key="sub2">
-            <template #icon></template>
-            <template #title>
-                <folder-open-two-tone />
-                文件夹
-            </template>
-            <a-menu-item key="5">Option 5</a-menu-item>
-            <a-menu-item key="6">Option 6</a-menu-item>
-            <a-sub-menu key="sub3" title="Submenu">
-                <a-menu-item key="7">Option 7</a-menu-item>
-                <a-menu-item key="8">Option 8</a-menu-item>
-            </a-sub-menu>
-        </a-sub-menu>
-    </a-menu> -->
     <div style="height: 150px;">
         <a-upload-dragger>
             <p class="ant-upload-drag-icon">
@@ -50,9 +35,17 @@
     } from '@ant-design/icons-vue'
     import {
         ref,
-        reactive
+        reactive,
+        onMounted
     } from 'vue'
+    import COS from 'cos-js-sdk-v5';
+    import token from '../assets/token'
     const selectedKeys = ref < string[1] > (["1"])
+    const CosData = token.getCosData()
+    const cos = new COS({
+        SecretId: CosData.SecretId,
+        SecretKey: CosData.SecretKey
+    })
 </script>
 <style>
 
