@@ -19,16 +19,16 @@ export default createStore({
   mutations: {
     // 新增文件夹
     addData(state, data) {
-      let isor = true
-      for (let i = 0; i < state.CardData.length; i++) {
-        // 如果存在空命名的文件夹
-        if (!state.CardData[i].folderName || state.CardData[i].folderName.trim().length === 0) {
-          isor = false
-        }
-      }
-      if (isor) {
+      // let isor = true
+      // for (let i = 0; i < state.CardData.length; i++) {
+      //   // 如果存在空命名的文件夹
+      //   if (!state.CardData[i].folderName || state.CardData[i].folderName.trim().length === 0) {
+      //     isor = false
+      //   }
+      // }
+      // if (isor) {
         state.CardData.push(data)
-      }
+      // }
     },
     // 移除文件夹
     deleteData(state, data) {

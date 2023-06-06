@@ -67,15 +67,23 @@
     })
 
     function newCreate(params) {
-        const i = store.state.CardData.length
-        const s = {
-            src: "https://huyi-1312710090.cos.ap-guangzhou.myqcloud.com/image%2F%E6%96%87%E4%BB%B6%E5%A4%B9.jpeg",
-            display: false,
-            text: "",
-            key: "",
-            index: i
+        let isor = true
+        for (let i = 0; i < store.state.CardData.length; i++) {
+            // 判断是否存在新建的文件夹（即判断是否存在空命名的文件夹）
+            if (!store.state.CardData[i].folderName || store.state.CardData[i].folderName.trim().length === 0) {
+                isor = false
+            }
         }
-        store.commit('addData', s)
+        if (isor) {
+            const form = {
+                image: "https://huyi-1312710090.cos.ap-guangzhou.myqcloud.com/image%2F%E6%96%87%E4%BB%B6%E5%A4%B9.jpeg",
+                masterFolderId: store.state.masterId,
+            }
+            request.post("/create_folder", form).then(res => {
+                res.data.display = false
+                store.commit('addData', res.data)
+            })
+        }
     }
 
     // 修改父文件夹id
