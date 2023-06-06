@@ -86,7 +86,7 @@
             createTime: string,
             updateTime: string,
             volume: string,
-            isDelete: int,
+            isDelete: number,
     }
     // 文本框显示判定
     const display = ref(false)
