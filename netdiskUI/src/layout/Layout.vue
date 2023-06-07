@@ -6,12 +6,14 @@
         <a-layout :style="{ marginLeft: '200px' }">
             <a-layout-header :style="{ background: '#fff', padding: 0 }">
                 <a-menu mode="horizontal" v-model:selectedKeys="model">
-                    <a-menu-item key="1">
-                        <template #icon>
-                            <up-circle-outlined />
-                        </template>
-                        上传文件
-                    </a-menu-item>
+                    <a-upload :beforeUpload="before">
+                        <a-menu-item key="1">
+                            <template #icon>
+                                <up-circle-outlined />
+                            </template>
+                            上传文件
+                        </a-menu-item>
+                    </a-upload>
                     <a-menu-item key="2" @click="newCreate">
                         <template #icon>
                             <folder-open-outlined />
@@ -43,7 +45,11 @@
         ref,
         reactive,
         watch
-    } from 'vue'
+    } from 'vue';
+    import {
+        message,
+        Upload
+    } from 'ant-design-vue';
     import {
         useStore
     } from 'vuex';
@@ -65,6 +71,15 @@
     watch(() => store.state.masterId, (newQuestion, oldQuestion) => {
         getData(newQuestion)
     })
+
+    async function before(params) {
+        await updataFile(params)
+        return Upload.LIST_IGNORE
+    }
+
+    function updataFile(params) {
+        store.state.file = params
+    }
 
     function newCreate(params) {
         let isor = true

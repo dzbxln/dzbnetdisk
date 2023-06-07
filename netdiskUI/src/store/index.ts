@@ -11,7 +11,8 @@ export default createStore({
       fId: '',
     }],
     // 父文件夹id
-    masterId: ''
+    masterId: '',
+    file : undefined,
   },
   getters: {
   },

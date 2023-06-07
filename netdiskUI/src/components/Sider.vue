@@ -25,10 +25,14 @@
             </p>
         </a-upload-dragger>
     </div>
+    <div style="color:#108ee9;">视频上传进度</div>
     <a-progress :show-info="false" :stroke-color="{'0%': '#108ee9','100%': '#87d068',}" :percent="percent" />
-    <div>
-        <video :src="videoUrl" controls autoplay height="112.5" width="200" style="object-fit:contain">
+    <div style="color:#108ee9;">
+        <video id="videoF" :src="videoUrl" controls loop preload="auto" height="112.5" width="200" style="object-fit:contain"
+            controlslist="nodownload nofullscreen">
         </video>
+        视频加载进度
+        <a-progress :show-info="false" :stroke-color="{'0%': '#108ee9','100%': '#87d068',}" :percent="loadProgress" />
     </div>
 </template>
 <script setup lang="ts">
@@ -37,34 +41,78 @@
         FolderOpenTwoTone,
         PictureTwoTone,
         VideoCameraTwoTone,
-    } from '@ant-design/icons-vue'
+    } from '@ant-design/icons-vue';
     import {
         ref,
         reactive,
-        onMounted
-    } from 'vue'
+        onMounted,
+        watch,
+    } from 'vue';
+    import {
+        useStore
+    } from 'vuex';
     import {
         message,
         Upload
-    } from 'ant-design-vue'
+    } from 'ant-design-vue';
     import COS from 'cos-js-sdk-v5';
-    import token from '../until/token'
+    import token from '../until/token';
     const selectedKeys = ref < string[1] > (["1"])
     const percent = ref(0)
+    const loadProgress = ref(0)
     const videoUrl = ref("")
-
+    const store = useStore();
     const CosData = token.getCosData()
+
     // 定义cos中的秘钥
     const cos = new COS({
         SecretId: CosData.SecretId,
         SecretKey: CosData.SecretKey
     })
 
+    // onMounted(() => {
+    //     console.log(video);
+    // })
+
+    // 获取视频加载进度
+    watch(videoUrl, (newQuestion, oldQuestion) => {
+        if (videoUrl != "") {
+            const video = document.getElementById('videoF');
+            video.addEventListener('loadedmetadata', (event) => {
+                const duration = video.duration;
+                console.log(duration);
+                video.addEventListener('progress',(event)=>{
+                    const i = video.buffered.end(0);
+                    console.log(i);
+                    const loading = i / duration
+                    loadProgress.value = loading*100
+                    if(loading > 0.3){
+                        video.play()
+                    }
+                })
+            });
+        }
+    })
+    // video.addEventListener('progress', function(e){
+    //     console.log("准备！");
+    // })
+
+    // 监听共享数据内的file，用于获取Layout选中的文件
+    watch(() => store.state.file, (newQuestion, oldQuestion) => {
+        if (newQuestion != undefined) {
+            console.log(newQuestion);
+            upload(store.state.file)
+            store.state.file = undefined
+        }
+    })
+
+    // 异步上传，关闭文件列表
     function before(params) {
         upload(params)
         return Upload.LIST_IGNORE
     }
 
+    // 上传文件
     function upload(params) {
         cos.putObject({
             Bucket: CosData.Bucket,
@@ -81,13 +129,14 @@
         }, (err, data) => {
             if (!err) {
                 percent.value = 0
+                console.log(URL.createObjectURL(params));
                 message.success('上传成功！');
                 console.log(params.type);
                 if (params.type.indexOf("image") != -1) {
                     addImage(data)
                 } else if (params.type.indexOf("video") != -1) {
                     videoUrl.value = 'http://' + data.Location
-                    console.log(videoUrl);
+                    // videoUrl.value = URL.createObjectURL(params)
                 }
                 // 手动处理 fileList
                 // this.form.image = 'http://' + data.Location
@@ -103,4 +152,44 @@
     }
 </script>
 <style>
+    /* // 全屏按钮 */
+    video::-webkit-media-controls-fullscreen-button {
+        display: none;
+    }
+
+    /* //播放按钮 */
+    /* video::-webkit-media-controls-play-button {
+  display: none;
+} */
+    /* //进度条 */
+video::-webkit-media-controls-timeline {
+  display: none;
+}
+    /* //观看的当前时间 */
+    video::-webkit-media-controls-current-time-display {
+        display: none;
+    }
+
+    /* //剩余时间 */
+    video::-webkit-media-controls-time-remaining-display {
+        display: none;
+    }
+
+    /* //音量按钮 */
+    /* video::-webkit-media-controls-mute-button {
+  display: none;
+} */
+    /* // 画中画 */
+    video::-webkit-media-controls-toggle-closed-captions-button {
+        display: none;
+    }
+
+    /* //音量的控制条 */
+    /* video::-webkit-media-controls-volume-slider {
+  display: none;
+} */
+    /* //所有控件 */
+    /* video::-webkit-media-controls-enclosure {
+  display: none;
+} */
 </style>
