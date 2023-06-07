@@ -48,6 +48,11 @@ public class File implements Serializable {
     private String fileImage;
 
     /**
+     * 文件链接
+     */
+    private String fileUrl;
+
+    /**
      * 文件大小
      */
     private BigDecimal volume;

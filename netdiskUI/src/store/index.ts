@@ -13,6 +13,7 @@ export default createStore({
     // 父文件夹id
     masterId: '',
     file : undefined,
+    videoUrl:'',
   },
   getters: {
   },

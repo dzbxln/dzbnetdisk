@@ -20,6 +20,12 @@
                         </template>
                         新建文件夹
                     </a-menu-item>
+                    <a-menu-item key="3">
+                        <template #icon>
+                            <compress-outlined />
+                        </template>
+                        取消预览
+                    </a-menu-item>
                 </a-menu>
             </a-layout-header>
             <a-layout-content :style="{ margin: '5px 16px 0', overflow: 'initial' }">
@@ -56,6 +62,7 @@
     import {
         UpCircleOutlined,
         FolderOpenOutlined,
+        CompressOutlined,
     } from '@ant-design/icons-vue'
     import request from '../until/request'
     const model = ref < string[10] > (["0"])

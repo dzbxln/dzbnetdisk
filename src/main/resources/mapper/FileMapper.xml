@@ -10,6 +10,7 @@
         <result property="fileName" column="file_name" jdbcType="VARCHAR"/>
         <result property="fileType" column="file_type" jdbcType="VARCHAR"/>
         <result property="fileImage" column="file_image" jdbcType="VARCHAR"/>
+        <result property="fileUrl" column="file_url" jdbcType="VARCHAR" />
         <result property="volume" column="volume" jdbcType="DECIMAL"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
@@ -18,7 +19,7 @@
 
     <sql id="Base_Column_List">
         file_id,folder_id,file_name,
-        file_type,file_image,volume,
+        file_type,file_image,file_url,volume,
         create_time,update_time,is_delete
     </sql>
 </mapper>

@@ -25,11 +25,11 @@
             </p>
         </a-upload-dragger>
     </div>
-    <div style="color:#108ee9;">视频上传进度</div>
+    <div style="color:#108ee9;">上传进度</div>
     <a-progress :show-info="false" :stroke-color="{'0%': '#108ee9','100%': '#87d068',}" :percent="percent" />
     <div style="color:#108ee9;">
-        <video id="videoF" :src="videoUrl" controls loop preload="auto" height="112.5" width="200" style="object-fit:contain"
-            controlslist="nodownload nofullscreen">
+        <video id="videoF" :src="store.state.videoUrl" controls loop preload="auto" height="112.5" width="200"
+            style="object-fit:contain" controlslist="nofullscreen">
         </video>
         视频加载进度
         <a-progress :show-info="false" :stroke-color="{'0%': '#108ee9','100%': '#87d068',}" :percent="loadProgress" />
@@ -60,7 +60,6 @@
     const selectedKeys = ref < string[1] > (["1"])
     const percent = ref(0)
     const loadProgress = ref(0)
-    const videoUrl = ref("")
     const store = useStore();
     const CosData = token.getCosData()
 
@@ -75,18 +74,16 @@
     // })
 
     // 获取视频加载进度
-    watch(videoUrl, (newQuestion, oldQuestion) => {
-        if (videoUrl != "") {
+    watch(() => store.state.videoUrl, (newQuestion, oldQuestion) => {
+        if (store.state.videoUrl != "") {
             const video = document.getElementById('videoF');
             video.addEventListener('loadedmetadata', (event) => {
                 const duration = video.duration;
-                console.log(duration);
-                video.addEventListener('progress',(event)=>{
+                video.addEventListener('progress', (event) => {
                     const i = video.buffered.end(0);
-                    console.log(i);
                     const loading = i / duration
-                    loadProgress.value = loading*100
-                    if(loading > 0.3){
+                    loadProgress.value = loading * 100
+                    if (loading > 0.3) {
                         video.play()
                     }
                 })
@@ -100,7 +97,6 @@
     // 监听共享数据内的file，用于获取Layout选中的文件
     watch(() => store.state.file, (newQuestion, oldQuestion) => {
         if (newQuestion != undefined) {
-            console.log(newQuestion);
             upload(store.state.file)
             store.state.file = undefined
         }
@@ -129,14 +125,37 @@
         }, (err, data) => {
             if (!err) {
                 percent.value = 0
-                console.log(URL.createObjectURL(params));
                 message.success('上传成功！');
-                console.log(params.type);
                 if (params.type.indexOf("image") != -1) {
                     addImage(data)
                 } else if (params.type.indexOf("video") != -1) {
-                    videoUrl.value = 'http://' + data.Location
-                    // videoUrl.value = URL.createObjectURL(params)
+                    console.log(params);
+                    // store.state.videoUrl = 'http://' + data.Location
+                    const video = document.getElementById('videoF');
+                    video.currentTime = 13
+                    store.state.videoUrl = URL.createObjectURL(params)
+                    // 创建画板
+                    let canvas = document.createElement("canvas");
+                    // 设置画板宽高 比例
+                    canvas.width = video.width;
+                    canvas.height = video.height;
+                    // 获取画板上下文执行绘图 直接把video 丢进去 就可以了
+                    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const base64URL = canvas.toDataURL("image/png")
+                    var imgName = params.name.split("."),
+                        imgN = imgName[0]
+                    var arr = base64URL.split(","),
+                        bstr = atob(arr[1]),
+                        n = bstr.length,
+                        u8arr = new Uint8Array(n);
+                    while (n--) {
+                        u8arr[n] = bstr.charCodeAt(n);
+                    }
+                    const file = new File([u8arr],imgN + "视频封面", { type: "image/png" })
+                    addCover(file)
+                    // let img = document.createElement("img");
+                    // img.src = canvas.toDataURL("image/png");
+                    // console.log(img)
                 }
                 // 手动处理 fileList
                 // this.form.image = 'http://' + data.Location
@@ -146,9 +165,19 @@
         })
     }
 
+    // 进行封面上传
+    function addCover(params) {
+        
+    }
+
     // 上传图片调用
     function addImage(params) {
         console.log("图片！");
+    }
+
+    // 上传视频调用
+    function addVideo(params, data) {
+
     }
 </script>
 <style>
@@ -162,9 +191,9 @@
   display: none;
 } */
     /* //进度条 */
-video::-webkit-media-controls-timeline {
+    /* video::-webkit-media-controls-timeline {
   display: none;
-}
+} */
     /* //观看的当前时间 */
     video::-webkit-media-controls-current-time-display {
         display: none;
