@@ -152,7 +152,7 @@
                         u8arr[n] = bstr.charCodeAt(n);
                     }
                     const file = new File([u8arr],imgN + "视频封面", { type: "image/png" })
-                    addCover(file)
+                    addCover(file,params.name,'http://' + data.Location)
                     // let img = document.createElement("img");
                     // img.src = canvas.toDataURL("image/png");
                     // console.log(img)
@@ -166,7 +166,7 @@
     }
 
     // 进行封面上传
-    function addCover(params) {
+    function addCover(params,videoName,videoUrl) {
         
     }
 

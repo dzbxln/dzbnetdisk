@@ -5,10 +5,7 @@ export default createStore({
   state: {
     // 文件夹列表数据
     CardData: [{
-      image: '',
       display: true,
-      folderName: '',
-      fId: '',
     }],
     // 父文件夹id
     masterId: '',
@@ -21,14 +18,6 @@ export default createStore({
   mutations: {
     // 新增文件夹
     addData(state, data) {
-      // let isor = true
-      // for (let i = 0; i < state.CardData.length; i++) {
-      //   // 如果存在空命名的文件夹
-      //   if (!state.CardData[i].folderName || state.CardData[i].folderName.trim().length === 0) {
-      //     isor = false
-      //   }
-      // }
-      // if (isor) {
         state.CardData.push(data)
       // }
     },
@@ -39,7 +28,12 @@ export default createStore({
     // 文件夹列表整体替换
     coverData(state, data) {
       state.CardData = data
+    },
+    // 文件列表进行添加
+    fileAddData(state, data){
+      
     }
+
   },
   actions: {
   },
