@@ -6,6 +6,8 @@ import com.dengzebin.netdisk.service.FileService;
 import com.dengzebin.netdisk.mapper.FileMapper;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 /**
  *
  */
@@ -13,6 +15,14 @@ import org.springframework.stereotype.Service;
 public class FileServiceImpl extends ServiceImpl<FileMapper, File>
         implements FileService {
 
+    @Resource
+    private FileMapper fileMapper;
+
+    @Override
+    public boolean createFile(File file) {
+        int res = fileMapper.insert(file);
+        return res > 0;
+    }
 }
 
 
