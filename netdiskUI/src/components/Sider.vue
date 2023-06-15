@@ -239,7 +239,9 @@
         }
         // 导入数据库
         request.post("/create_file", form).then(res => {
-            console.log(res);
+            res.data.display = true
+            // console.log(res.data);
+            store.commit('fileAddData',res.data)
         })
     }
 </script>
