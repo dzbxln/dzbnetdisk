@@ -59,7 +59,7 @@
                                 <a-menu-item key="1">
                                     <folder-open-filled />
                                     下载</a-menu-item>
-                                <a-menu-item key="2">
+                                <a-menu-item key="2" @click="Preview(item)">
                                     <eye-filled />
                                     预览</a-menu-item>
                                 <a-menu-item key="3" @click="double_click(item)">
@@ -169,6 +169,12 @@
         }
 
     })
+
+    // 视频预览
+    function Preview(params) {
+        console.log(params);
+        store.state.videoUrl = params.fileUrl
+    }
 
     // 生命函数：组件挂载完成后调用
     onMounted(() => {
