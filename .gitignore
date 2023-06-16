@@ -671,3 +671,5 @@ src/main/java/com/dengzebin/netdisk/entity/VO/
 src/main/java/com/dengzebin/netdisk/quartz/
 netdiskUI/src/assets/token.ts
 netdiskUI/src/until/token.ts
+netdiskUI/src/assets/
+netdiskUI/dist
