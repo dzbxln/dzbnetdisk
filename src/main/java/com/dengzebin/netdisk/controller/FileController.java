@@ -4,10 +4,10 @@ import com.dengzebin.netdisk.entity.DO.File;
 import com.dengzebin.netdisk.service.FileService;
 import com.dengzebin.netdisk.untils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author DengZebing
@@ -32,5 +32,15 @@ public class FileController {
             throw new Exception("上传失败！");
         }
         return Result.success(file);
+    }
+
+    @GetMapping("/get_file_list")
+    public Result getFileList(@RequestParam("masterId") String masterId){
+        List<File> fileList = new ArrayList<>();
+        if ("".equals(masterId))
+            fileList = fileService.getFileList(null);
+        else
+            fileList = fileService.getFileList(masterId);
+        return Result.success(fileList);
     }
 }

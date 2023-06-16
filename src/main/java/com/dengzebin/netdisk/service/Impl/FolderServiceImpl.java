@@ -25,10 +25,7 @@ public class FolderServiceImpl extends ServiceImpl<FolderMapper, Folder>
     public List<Folder> getFolderList(String master_id) {
         List<Folder> folderList = new ArrayList<>();
         folderList = folderMapper.getFolderList(master_id);
-        if (folderList.size() > 0)
-            return folderList;
-        else
-            return folderList;
+        return folderList;
     }
 
     @Override

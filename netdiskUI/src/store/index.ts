@@ -7,9 +7,6 @@ export default createStore({
     CardData: [{
       display: true,
     }],
-    FileData: [{
-      display: true,
-    }],
     // 父文件夹id
     masterId: '',
     file : undefined,
@@ -35,7 +32,10 @@ export default createStore({
     // 文件列表进行添加
     fileAddData(state, data){
       state.CardData.push(data)
-      console.log(state.CardData)
+    },
+    // 文件列表批量
+    fileListAdd(state, data){
+      state.CardData.push.apply(state.CardData,data)
     }
 
   },

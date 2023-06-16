@@ -82,42 +82,57 @@
     watch(() => store.state.videoUrl, (newQuestion, oldQuestion) => {
         if (store.state.videoUrl != "") {
             const video = document.getElementById('videoF');
-            // 视频开始下载数据
-            video.addEventListener('loadedmetadata', loadedmetadata);
+            video.addEventListener('loadedmetadata', (event) => {
+                const duration = video.duration;
+                console.log(duration);
+                video.addEventListener('progress', (event) => {
+                    const i = video.buffered.end(0);
+                    console.log(i);
+                    const loading = i / duration
+                    loadProgress.value = loading * 100
+                    if (loading > 0.1) {
+                        video.play()
+                        video.addEventListener('ended', (event) => {
+                            store.state.videoUrl = ''
+                            loadProgress.value = 0
+                        })
+                    }
+                })
+            })
         }
     })
 
-    // 回调函数。
-    function loadedmetadata() {
-        const video = document.getElementById('videoF');
-        // 视频总长度
-        const duration = video.duration;
-        // 正在下载数据
-        video.addEventListener('progress', progress(duration))
-    }
-    // 回调函数二
-    function progress(duration) {
-        const video = document.getElementById('videoF');
-        const i = video.buffered.end(0);
-        // 判断加载进度百分比
-        const loading = i / duration
-        loadProgress.value = loading * 100
-        // 大于30%时进行播放和释放监听函数
-        if (loading > 0.3) {
-            video.play()
-            closeListener()
-        }
-    }
-    // 关闭监听
-    function closeListener(params) {
-        const video = document.getElementById('videoF');
-        video.removeEventListener('loadedmetadata', loadedmetadata)
-        video.removeEventListener('progress', progress)
-        video.addEventListener('ended',(event)=>{
-            store.state.videoUrl = ''
-            loadProgress.value = 0
-        })
-    }
+    // // 回调函数。
+    // function loadedmetadata() {
+    //     const video = document.getElementById('videoF');
+    //     // 视频总长度
+    //     const duration = video.duration;
+    //     // 正在下载数据
+    //     video.addEventListener('progress', progress(duration))
+    // }
+    // // 回调函数二
+    // function progress(duration) {
+    //     const video = document.getElementById('videoF');
+    //     const i = video.buffered.end(0);
+    //     // 判断加载进度百分比
+    //     const loading = i / duration
+    //     loadProgress.value = loading * 100
+    //     video.play()
+    //     video.addEventListener('ended', (event) => {
+    //         store.state.videoUrl = ''
+    //         loadProgress.value = 0
+    //     })
+    // }
+    // // 关闭监听
+    // function closeListener(params) {
+    //     const video = document.getElementById('videoF');
+    //     video.removeEventListener('loadedmetadata', loadedmetadata)
+    //     video.removeEventListener('progress', progress)
+    //     video.addEventListener('ended', (event) => {
+    //         store.state.videoUrl = ''
+    //         loadProgress.value = 0
+    //     })
+    // }
 
     // 监听共享数据内的file，用于获取Layout选中的文件
     watch(() => store.state.file, (newQuestion, oldQuestion) => {
@@ -156,7 +171,6 @@
                 } else if (params.type.indexOf("video") != -1) {
                     // 获取本地上传文件的临时url
                     store.state.videoUrl = URL.createObjectURL(params)
-
                     const video = document.createElement("video") //新创建一个video标签实例
                     video.src = URL.createObjectURL(params) // url地址
                     let canvas = document.createElement('canvas') // 建立canvas标签实例
@@ -241,7 +255,7 @@
         request.post("/create_file", form).then(res => {
             res.data.display = true
             // console.log(res.data);
-            store.commit('fileAddData',res.data)
+            store.commit('fileAddData', res.data)
         })
     }
 </script>

@@ -22,4 +22,16 @@
         file_type,file_image,file_url,volume,
         create_time,update_time,is_delete
     </sql>
+    <select id="getFileList" resultType="com.dengzebin.netdisk.entity.DO.File">
+        SELECT * FROM file
+        WHERE is_delete = 0
+        <choose>
+            <when test="masterId != null"> -- 相当于if
+                AND folder_id = #{masterId}
+            </when>
+            <otherwise> -- 相当于else
+                AND folder_id is null
+            </otherwise>
+        </choose>
+    </select>
 </mapper>
