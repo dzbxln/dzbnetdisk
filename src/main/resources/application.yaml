@@ -9,12 +9,19 @@ spring:
   # 配置数据源信息
   datasource:
     dynamic:
-      primary: yewu
+#      primary: localhost
+      primary: remote
       datasource:
-        yewu:
+#        localhost:
+#          # 配置连接业务数据库信息
+#          driver-class-name: com.mysql.cj.jdbc.Driver
+#          url: jdbc:mysql://localhost:3306/mynetdisk?useSSL=false&allowPublicKeyRetrieval=true
+#          username: root
+#          password: 1776252636
+        remote:
           # 配置连接业务数据库信息
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://localhost:3306/mynetdisk?useSSL=false&allowPublicKeyRetrieval=true
+          url: jdbc:mysql://43.138.168.132:3306/mynetdisk?useSSL=false&allowPublicKeyRetrieval=true
           username: root
           password: 1776252636
 mybatis-plus:
