@@ -1,6 +1,6 @@
 <template>
-    <div :style="{ padding: '20px', background: '#fff',height:'560px' , textAlign: 'center',position:'relative' }">
-        <a-list :grid="{ gutter: 16, column: 8 }" :data-source="listData">
+    <div class="my-container" :style="{ textAlign:'center' }">
+        <a-list :grid="{ gutter: 40, column: 8 }" :data-source="listData">
             <template #renderItem="{ item }">
                 <a-list-item>
                     <a-dropdown v-if="item.fileType == undefined" :trigger="['contextmenu']">
@@ -373,5 +373,33 @@
         /* 设置固定高度 */
         width: 120px;
         object-fit: scale-down;
+    }
+
+    .my-container {
+        padding: 20px;
+        background: #fff;
+        height: 620px;
+        position: relative;
+        overflow: auto;
+    }
+
+    /* 修改滚动条的宽度和颜色 */
+    .my-container::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .my-container::-webkit-scrollbar-track {
+        background-color: #ffffff;
+    }
+
+    .my-container::-webkit-scrollbar-thumb {
+        background-color: #727272;
+        border-radius: 4px;
+        /* 添加圆角效果 */
+    }
+
+    /* 当 thumb 处于悬停状态时的样式 */
+    .my-container::-webkit-scrollbar-thumb:hover {
+        background-color: rgb(108, 151, 157);
     }
 </style>

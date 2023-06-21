@@ -99,6 +99,8 @@
                     }
                 })
             })
+        }else{
+            loadProgress.value = 0
         }
     })
 

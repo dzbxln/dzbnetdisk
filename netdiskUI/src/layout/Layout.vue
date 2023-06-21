@@ -20,7 +20,7 @@
                         </template>
                         新建文件夹
                     </a-menu-item>
-                    <a-menu-item key="3">
+                    <a-menu-item key="3" @click="goCancel">
                         <template #icon>
                             <compress-outlined />
                         </template>
@@ -39,9 +39,9 @@
                 </div>
                 <router-view />
             </a-layout-content>
-            <a-layout-footer :style="{ textAlign: 'center' }">
+            <!-- <a-layout-footer :style="{ textAlign: 'center' }">
                 DengZebin netdisk @2023 by play
-            </a-layout-footer>
+            </a-layout-footer> -->
         </a-layout>
     </a-layout>
 </template>
@@ -82,6 +82,11 @@
     async function before(params) {
         await updataFile(params)
         return Upload.LIST_IGNORE
+    }
+
+    // 取消视频预览
+    function goCancel(params) {
+        store.state.videoUrl = ''
     }
 
     function updataFile(params) {
