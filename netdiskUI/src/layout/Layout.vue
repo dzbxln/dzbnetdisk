@@ -111,7 +111,7 @@
     // 修改父文件夹id
     function updateMasterId(params) {
         if (params === "根目录") {
-            store.state.masterId = ""
+            store.state.masterId = null
         } else {
             store.state.masterId = params.folderId
         }

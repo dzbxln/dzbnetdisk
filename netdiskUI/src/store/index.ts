@@ -36,6 +36,7 @@ export default createStore({
     // 文件列表批量
     fileListAdd(state, data){
       state.CardData.push.apply(state.CardData,data)
+      console.log(state.CardData);
     }
 
   },

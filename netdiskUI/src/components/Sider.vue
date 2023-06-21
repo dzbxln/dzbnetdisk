@@ -248,7 +248,7 @@
             fileType: 'video',
             fileImage: coverUrl,
             fileUrl: videoUrl,
-            masterFolderId: store.state.masterId,
+            folderId: store.state.masterId,
             volume: videoVolume.toFixed(2),
         }
         // 导入数据库
