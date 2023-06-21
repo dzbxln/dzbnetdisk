@@ -43,4 +43,12 @@ public class FileController {
             fileList = fileService.getFileList(masterId);
         return Result.success(fileList);
     }
+
+    @PostMapping("/delete_file/{fileId}")
+    public Result deleteFile(@PathVariable("fileId") String fileId){
+        if (fileService.deleteFile(fileId))
+            return Result.success();
+        else
+            return Result.error(-1,"删除失败！");
+    }
 }

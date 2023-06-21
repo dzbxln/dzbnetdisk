@@ -178,7 +178,7 @@
                     let canvas = document.createElement('canvas') // 建立canvas标签实例
                     const ctx = canvas.getContext('2d'); // 绘制2d
                     video.crossOrigin = 'anonymous' // 解决跨域问题，也就是提示污染资源无法转换视频
-                    video.currentTime = 1 // 第一帧
+                    video.currentTime = 20 // 第一帧
                     video.oncanplay = () => {
 
                         canvas.width = video.clientWidth ? video.clientWidth : 960; // 获取视频宽度 or 默认宽度

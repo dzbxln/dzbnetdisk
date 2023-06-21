@@ -23,4 +23,11 @@ public interface FileService extends IService<File> {
      * @return
      */
     List<File>  getFileList(String masterId);
+
+    /**
+     * 删除文件
+     * @param fileId
+     * @return
+     */
+    boolean deleteFile(String fileId);
 }

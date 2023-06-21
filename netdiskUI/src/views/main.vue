@@ -65,7 +65,7 @@
                                 <a-menu-item key="3" @click="double_click(item)">
                                     <edit-filled />
                                     重命名</a-menu-item>
-                                <a-menu-item key="5">
+                                <a-menu-item key="4" @click="deleteFile(item)">
                                     <delete-filled />
                                     删除</a-menu-item>
                             </a-menu>
@@ -109,6 +109,9 @@
     import {
         useLock
     } from '../until/useLock';
+    import token from '../until/token';
+    import COS from 'cos-js-sdk-v5';
+
 
     // // 卡片信息
     // interface CardData {
@@ -133,6 +136,14 @@
     const store = useStore();
     // 计算数组长度
     const arrayLength = computed(() => store.state.CardData.length)
+    // 存储桶信息
+    const CosData = token.getCosData()
+
+    // 定义cos中的秘钥
+    const cos = new COS({
+        SecretId: CosData.SecretId,
+        SecretKey: CosData.SecretKey
+    })
 
     const {
         acquireLock,
@@ -175,7 +186,6 @@
         if (!store.state.masterId || store.state.masterId.trim().length === 0) {
             getData()
         } else {
-            console.log('旧数据：' + newQuestion, '新数据：' + oldQuestion);
             getData(form)
         }
 
@@ -183,7 +193,6 @@
 
     // 视频预览
     function Preview(params) {
-        console.log(params);
         store.state.videoUrl = params.fileUrl
     }
 
@@ -227,9 +236,46 @@
         request.post("/delete_folder/" + res.fId).then(r => {
             if (r.code === 0) {
                 message.success('删除成功！')
-                getData()
+                // let form = {
+                //     fId: store.state.masterId
+                // }
+                // if (store.state.masterId != null)
+                //     getData(form)
+                // else
+                //     getData()
+                let index = listData.indexOf(res)
+                listData.splice(index, 1)
             }
         })
+    }
+
+    // 删除文件
+    function deleteFile(params) {
+        cos.deleteObject({
+            Bucket: CosData.Bucket,
+            /* 填写自己的 bucket，必须字段 */
+            Region: CosData.Region,
+            /* 存储桶所在地域，必须字段 */
+            Key: params.fileName,
+            /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */
+        }, function (err, data) {
+            if (data.statusCode == 200 || data.statusCode == 204) {
+                request.post("/delete_file/" + params.fileId).then(r => {
+                    if (r.code === 0) {
+                        message.success('删除成功！')
+                        // let form = {
+                        //     fId: store.state.masterId
+                        // }
+                        // if (store.state.masterId != null)
+                        //     getData(form)
+                        // else
+                        //     getData()
+                        let index = listData.indexOf(params)
+                        listData.splice(index, 1)
+                    }
+                })
+            }
+        });
     }
 
     // 列表更新
@@ -262,7 +308,6 @@
 
     // 回车 or 失去焦点
     function Undisplay(params) {
-        console.log('失去焦点了！');
         let isor = true
         if (!params.folderName || params.folderName.trim().length === 0) {
             isor = false
@@ -297,7 +342,6 @@
                             store.state.CardData[i].updateTime = res.data.updateTime
                         }
                     }
-                    console.log(store.state.CardData);
                 } else {
                     message.error(res.message)
                     getData()
@@ -331,7 +375,6 @@
                     }
                 }).then(r => {
                     store.commit('coverData', r.data)
-                    console.log(r.data);
                     if (!r.data || r.data.length === 0) {
                         store.state.masterId = res.fId
                     } else {
@@ -346,7 +389,6 @@
     }
 
     function getFileData(params) {
-        console.log(store.state.masterId);
         if (store.state.masterId === null) {
             request.get("get_file_list", {
                 params: {

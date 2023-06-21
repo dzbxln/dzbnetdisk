@@ -31,6 +31,12 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File>
     public List<File> getFileList(String masterId) {
         return fileMapper.getFileList(masterId);
     }
+
+    @Override
+    public boolean deleteFile(String fileId) {
+        int res = fileMapper.deleteById(fileId);
+        return res > 0;
+    }
 }
 
 
