@@ -22,20 +22,20 @@ public class FileController {
     private FileService fileService;
 
     @Autowired
-    public void setFileService(FileService fileService){
+    public void setFileService(FileService fileService) {
         this.fileService = fileService;
     }
 
     @PostMapping("/create_file")
     public Result createFile(@RequestBody File file) throws Exception {
-        if (!fileService.createFile(file)){
+        if (!fileService.createFile(file)) {
             throw new Exception("上传失败！");
         }
         return Result.success(file);
     }
 
     @GetMapping("/get_file_list")
-    public Result getFileList(@RequestParam("masterId") String masterId){
+    public Result getFileList(@RequestParam("masterId") String masterId) {
         List<File> fileList = new ArrayList<>();
         if ("".equals(masterId))
             fileList = fileService.getFileList(null);
@@ -45,10 +45,10 @@ public class FileController {
     }
 
     @PostMapping("/delete_file/{fileId}")
-    public Result deleteFile(@PathVariable("fileId") String fileId){
+    public Result deleteFile(@PathVariable("fileId") String fileId) {
         if (fileService.deleteFile(fileId))
             return Result.success();
         else
-            return Result.error(-1,"删除失败！");
+            return Result.error(-1, "删除失败！");
     }
 }
