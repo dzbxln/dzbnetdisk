@@ -19,7 +19,6 @@ export default createStore({
     // 新增文件夹
     addData(state, data) {
         state.CardData.push(data)
-      // }
     },
     // 移除文件夹
     deleteData(state, data) {
@@ -33,10 +32,10 @@ export default createStore({
     fileAddData(state, data){
       state.CardData.push(data)
     },
-    // 文件列表批量
+    // 文件列表批量插入
     fileListAdd(state, data){
       state.CardData.push.apply(state.CardData,data)
-      console.log(state.CardData);
+      // console.log(state.CardData);
     }
 
   },
