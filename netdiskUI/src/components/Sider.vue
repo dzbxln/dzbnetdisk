@@ -15,7 +15,7 @@
         </a-menu-item>
     </a-menu>
     <div style="height: 150px;">
-        <a-upload-dragger :beforeUpload="before">
+        <a-upload-dragger @drop="before" :beforeUpload="before">
             <p class="ant-upload-drag-icon">
                 <inbox-outlined></inbox-outlined>
             </p>
