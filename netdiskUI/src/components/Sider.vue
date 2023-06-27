@@ -169,7 +169,7 @@
                 percent.value = 0
                 message.success('上传成功！');
                 if (params.type.indexOf("image") != -1) {
-                    addImage(data)
+                    addImage(params,data)
                 } else if (params.type.indexOf("video") != -1) {
                     // 获取本地上传文件的临时url
                     store.state.videoUrl = URL.createObjectURL(params)
@@ -239,8 +239,24 @@
     }
 
     // 上传图片调用
-    function addImage(params) {
-        console.log("图片！");
+    function addImage(params,data) {
+        console.log(params);
+        console.log(data);
+        const imgUrl = 'http://' + data.Location
+        const imgSize = params.size / 1048576
+        const form = {
+            fileName: params.name,
+            fileType: 'image',
+            fileImage: imgUrl,
+            fileUrl: imgUrl,
+            folderId: store.state.masterId,
+            volume: imgSize.toFixed(2)
+        }
+        request.post("/create_file", form).then(res => {
+            res.data.display = true
+            // console.log(res.data);
+            store.commit('fileAddData', res.data)
+        })
     }
 
     // 上传视频调用
