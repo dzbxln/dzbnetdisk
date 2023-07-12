@@ -56,12 +56,13 @@
                         </a-card>
                         <template #overlay>
                             <a-menu>
-                                <a-menu-item key="1">
+                                <a-menu-item key="1" @click="download(item)">
                                     <folder-open-filled />
                                     下载</a-menu-item>
-                                <a-menu-item key="2" @click="Preview(item)">
+                                <a-menu-item key=" 2" @click="Preview(item)">
                                     <eye-filled />
-                                    预览</a-menu-item>
+                                    预览
+                                </a-menu-item>
                                 <a-menu-item key="3" @click="double_click(item)">
                                     <edit-filled />
                                     重命名</a-menu-item>
@@ -89,7 +90,7 @@
                         </a-card>
                         <template #overlay>
                             <a-menu>
-                                <a-menu-item key="1">
+                                <a-menu-item key="1" @click="downloadImage(item)">
                                     <folder-open-filled />
                                     下载</a-menu-item>
                                 <a-menu-item key="2">
@@ -234,6 +235,56 @@
         // getData()
         store.state.masterId = null
     })
+
+    // 下载
+    function download(params) {
+        // 创建一个隐藏的<a>标签
+        var hiddenElement = document.createElement('a');
+        hiddenElement.href = params.fileUrl;
+        hiddenElement.target = '_blank';
+        hiddenElement.download = ''; // 无文件名，会自动使用服务器上的文件名
+
+        // 将<a>元素添加到文档中
+        document.body.appendChild(hiddenElement);
+
+        // 触发点击事件进行下载
+        hiddenElement.click();
+
+        // 下载完成后移除<a>元素
+        document.body.removeChild(hiddenElement);
+    }
+
+    // 下载图片
+    function downloadImage(params) {
+        // 创建一个<a>标签
+        var link = document.createElement('a');
+        link.href = params.fileUrl;
+        link.target = '_blank';
+
+        // 发送HTTP请求
+        var httpReq = new XMLHttpRequest();
+        httpReq.open("GET", params.fileUrl, true);
+        httpReq.responseType = 'blob';
+
+        // 请求完成时执行
+        httpReq.onload = function () {
+            if (httpReq.status === 200) {
+                // 创建一个URL对象
+                var imageURL = URL.createObjectURL(httpReq.response);
+
+                // 设置<a>标签的属性，触发点击事件进行下载
+                link.download = ''; // 无文件名，会自动使用服务器上的文件名
+                link.href = imageURL;
+                link.click();
+
+                // 释放URL对象
+                URL.revokeObjectURL(imageURL);
+            }
+        };
+
+        // 发送请求
+        httpReq.send();
+    }
 
     // 打开文件夹
     function open(params) {
