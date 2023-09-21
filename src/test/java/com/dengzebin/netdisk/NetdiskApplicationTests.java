@@ -8,12 +8,4 @@ import javax.annotation.Resource;
 
 @SpringBootTest
 class NetdiskApplicationTests {
-
-	@Resource
-	private FolderService folderService;
-
-	@Test
-	void contextLoads() {
-	}
-
 }

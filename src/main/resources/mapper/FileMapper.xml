@@ -33,5 +33,6 @@
                 AND folder_id is null
             </otherwise>
         </choose>
+        ORDER BY create_time DESC
     </select>
 </mapper>
